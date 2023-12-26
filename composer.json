@@ -1,12 +1,12 @@
 {
-    "name": "citron/citron",
+    "name": "ultra/upload",
     "type": "library",
-    "description": "Citron Template Engine",
+    "description": "A tool that helps you receive and move uploaded files and images on the server.",
     "license": "MIT",
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/dlsrc/citron"
+            "url": "https://github.com/dlsrc/ultra-upload"
         }
     ],
     "authors": [

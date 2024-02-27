@@ -1,12 +1,14 @@
 <?php declare(strict_types=1);
 /**
- * (c) 2005-2023 Dmitry Lebedev <dl@adios.ru>
+ * (c) 2005-2024 Dmitry Lebedev <dl@adios.ru>
  * This source code is part of the Ultra upload package.
  * Please see the LICENSE file for copyright and licensing information.
  */
-namespace ultra\upload;
+namespace Ultra\Upload;
 
-enum Code: int implements \ultra\Condition {
+use Ultra\Condition;
+
+enum Code: int implements Condition {
 	case Unknown   = 400; // Неизвестная ошибка
 	case IniSize   = 401; // Размер принятого файла превысил максимально допустимый размер
 	case FormSize  = 402; // Размер загружаемого файла превысил значение MAX_FILE_SIZE

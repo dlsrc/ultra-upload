@@ -1,12 +1,14 @@
 <?php declare(strict_types=1);
 /**
- * (c) 2005-2023 Dmitry Lebedev <dl@adios.ru>
+ * (c) 2005-2024 Dmitry Lebedev <dl@adios.ru>
  * This source code is part of the Ultra upload package.
  * Please see the LICENSE file for copyright and licensing information.
  */
-namespace ultra\upload\it;
+namespace Ultra\Upload\Lang\it;
 
-final class Fail extends \ultra\Getter {
+use Ultra\Getter;
+
+final class Fail extends Getter {
 	protected function initialize(): void {
 		$this->_property['e_ini_size']  = 'Il file ricevuto "{0}" supera la dimensione massima consentita.';
 		$this->_property['e_form_size'] = 'La dimensione del file caricato "{0}" ha superato il valore MAX_FILE_SIZE.';

@@ -1,10 +1,14 @@
 <?php declare(strict_types=1);
 /**
- * (c) 2005-2023 Dmitry Lebedev <dl@adios.ru>
+ * (c) 2005-2024 Dmitry Lebedev <dl@adios.ru>
  * This source code is part of the Ultra upload package.
  * Please see the LICENSE file for copyright and licensing information.
  */
-namespace ultra\upload;
+namespace Ultra\Upload;
+
+use Ultra\IO;
+use Ultra\State;
+use Ultra\Chars\Translit;
 
 abstract class Moving {
 	abstract protected function allow(): array;
@@ -20,7 +24,7 @@ abstract class Moving {
 	private bool $moved;
 
 	public function __construct(string $name, string $type, string $temp, int $size, int $key = 0) {
-		$inf = \pathinfo($name);
+		$inf = pathinfo($name);
 
 		$this->key   = $key;
 		$this->name  = $name;
@@ -41,7 +45,7 @@ abstract class Moving {
 			return;
 		}
 
-		$inf = new \finfo(\FILEINFO_MIME_TYPE);
+		$inf = new finfo(FILEINFO_MIME_TYPE);
 		$this->type = $inf->file($this->path);
 
 		if (!isset($allow[$this->type])) {
@@ -55,8 +59,8 @@ abstract class Moving {
 			return;
 		}
 
-		if (!\in_array($this->ext, $ext)) {
-			$this->ext  = \array_shift($ext);
+		if (!in_array($this->ext, $ext)) {
+			$this->ext  = array_shift($ext);
 			$this->name = $this->file.'.'.$this->ext;
 		}
 	}
@@ -69,7 +73,7 @@ abstract class Moving {
 		return true;
 	}
 
-	public function getError(): \ultra\Valuable|null {
+	public function getError(): State|null {
 		return $this->error;
 	}
 
@@ -98,16 +102,16 @@ abstract class Moving {
 			return false;
 		}
 
-		if (!\ultra\IO::indir($file)) {
+		if (!IO::indir($file)) {
 			return false;
 		}
 
-		if (!\move_uploaded_file($this->path, $file)) {
+		if (!move_uploaded_file($this->path, $file)) {
 			$this->error = new Fail(Code::Move, Fail::message('e_move', $this->name));
 			return false;
 		}
 		else {
-			\chmod($file, \ultra\IO::fm());
+			chmod($file, IO::fm());
 			$this->path = $file;
 			$this->moved = true;
 		}
@@ -117,7 +121,7 @@ abstract class Moving {
 
 	public function username(bool $trans = false): string {
 		if ($trans) {
-			return \ultra\chars\Translit::ru2en($this->name);
+			return Translit::ru2en($this->name);
 		}
 
 		return $this->name;
@@ -125,7 +129,7 @@ abstract class Moving {
 
 	public function filename(bool $trans = false): string {
 		if ($trans) {
-			return \ultra\chars\Translit::ru2en($this->file);
+			return Translit::ru2en($this->file);
 		}
 
 		return $this->file;
@@ -161,7 +165,7 @@ abstract class Moving {
 		}
 
 		if ($i > 0) {
-			$string = \round($string, 2);
+			$string = round($string, 2);
 		}
 
 		return $string.$size[$i];

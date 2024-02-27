@@ -1,22 +1,10 @@
 <?php declare(strict_types=1);
 /**
- * (c) 2005-2023 Dmitry Lebedev <dl@adios.ru>
+ * (c) 2005-2024 Dmitry Lebedev <dl@adios.ru>
  * This source code is part of the Ultra upload package.
  * Please see the LICENSE file for copyright and licensing information.
  */
-namespace ultra\upload;
-
-enum DataType {
-	case File;
-	case Image;
-
-	public function getClass(): string {
-		return match($this) {
-			self::File  => File::class,
-			self::Image => Image::class,
-		};
-	}
-}
+namespace Ultra\Upload;
 
 final class Data {
 	private array $file;
@@ -34,7 +22,7 @@ final class Data {
 	}
 
 	public function isError(): int {
-		return \count($this->error);
+		return count($this->error);
 	}
 
 	public function isSend(): bool {
@@ -80,11 +68,11 @@ final class Data {
 			$mesg[] = $error->message;
 		}
 
-		return \implode($div, $mesg);
+		return implode($div, $mesg);
 	}
 
 	public function loaded(): int {
-		return \count($this->file);
+		return count($this->file);
 	}
 
 	public function file(int $id = 0): Moving|null {
@@ -103,9 +91,9 @@ final class Data {
 			return;
 		}
 
-		if (\is_array($_FILES[$event]['name'])) {
-			foreach (\array_keys($_FILES[$event]['name']) as $key) {
-				if (\UPLOAD_ERR_OK == $_FILES[$event]['error'][$key]) {
+		if (is_array($_FILES[$event]['name'])) {
+			foreach (array_keys($_FILES[$event]['name']) as $key) {
+				if (UPLOAD_ERR_OK == $_FILES[$event]['error'][$key]) {
 					$this->file[] = new $this->type(
 						$_FILES[$event]['name'][$key],
 						$_FILES[$event]['type'][$key],
@@ -120,7 +108,7 @@ final class Data {
 			}
 		}
 		else {
-			if (\UPLOAD_ERR_OK == $_FILES[$event]['error']) {
+			if (UPLOAD_ERR_OK == $_FILES[$event]['error']) {
 				$this->file[] = new $this->type(
 					$_FILES[$event]['name'],
 					$_FILES[$event]['type'],
@@ -144,16 +132,16 @@ final class Data {
 			$name = $_FILES[$event]['name'];
 		}
 		else {
-			$error = \UPLOAD_ERR_NO_FILE;
+			$error = UPLOAD_ERR_NO_FILE;
 			$name = '';
 		}
 
 		$this->error[] = match ($error) {
-			\UPLOAD_ERR_INI_SIZE  => new Fail(Code::IniSize, Fail::message('e_ini_size', $name)),
-			\UPLOAD_ERR_FORM_SIZE => new Fail(Code::FormSize, Fail::message('e_form_size', $name)),
-			\UPLOAD_ERR_PARTIAL   => new Fail(Code::Partial, Fail::message('e_partial', $name)),
-			\UPLOAD_ERR_NO_FILE   => new Fail(Code::NoFile, Fail::message('e_no_file')),
-			\default              => new Fail(Code::Unknown, Fail::message('e_unknown', $name)),
+			UPLOAD_ERR_INI_SIZE  => new Fail(Code::IniSize, Fail::message('e_ini_size', $name)),
+			UPLOAD_ERR_FORM_SIZE => new Fail(Code::FormSize, Fail::message('e_form_size', $name)),
+			UPLOAD_ERR_PARTIAL   => new Fail(Code::Partial, Fail::message('e_partial', $name)),
+			UPLOAD_ERR_NO_FILE   => new Fail(Code::NoFile, Fail::message('e_no_file')),
+			default              => new Fail(Code::Unknown, Fail::message('e_unknown', $name)),
 		};
 	}
 

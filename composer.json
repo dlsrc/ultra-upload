@@ -1,5 +1,6 @@
 {
     "name": "ultra/upload",
+    "version": "1.0.1",
     "type": "library",
     "description": "A tool that helps you receive and move uploaded files and images on the server.",
     "license": "MIT",
@@ -16,8 +17,13 @@
             "role": "Developer"
         }
     ],
+    "autoload": {
+        "psr-4" : {
+            "Ultra\\Upload\\" : "src/"
+        }
+    },
     "require": {
         "php": ">=8.3",
-        "ultra/core": "^1.0.0"
+        "ultra/core": "^1.0.2"
     }
 }

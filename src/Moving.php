@@ -6,6 +6,7 @@
  */
 namespace Ultra\Upload;
 
+use finfo;
 use Ultra\IO;
 use Ultra\State;
 use Ultra\Chars\Translit;

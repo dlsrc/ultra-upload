@@ -53,14 +53,14 @@ final class Data {
 		return 0;
 	}
 
-	public function error(bool $div = false): string {
+	public function error(string $div = ''): string {
 		if (empty($this->error)) {
 			return '';
 		}
 
 		$mesg = [];
 
-		if (!$div) {
+		if ('' == $div) {
 			$div = ' ';
 		}
 
